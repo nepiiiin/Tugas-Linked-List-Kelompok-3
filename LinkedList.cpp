@@ -111,4 +111,47 @@ void hapusAkhir(){
     cout<<"Produk terakhir berhasil dihapus"<<endl;
 }
 
+//bagian menampilkan semua produk
+void tampilkanProduk(){
+    if(head == NULL){
+        cout<<"Keranjang kosong"<<endl;
+        return;
+    }
+
+    Node *temp = head;
+
+    while(temp != NULL){
+        cout<<"Produk : "<<temp->produk<<endl;
+        cout<<"Harga  : "<<temp->harga<<endl;
+        cout<<"Jumlah : "<<temp->jumlah<<endl;
+        cout<<"---------------------"<<endl;
+
+        temp = temp->next;
+    }
+}
+
+//bagian mencari produk
+void cariProduk(string produk){
+
+    if(head == NULL){
+    cout<<"Keranjang kosong"<<endl;
+    return;
+}
+
+    Node *temp = head;
+
+    while(temp != NULL){
+        if(temp->produk == produk){
+            cout<<"Produk ditemukan"<<endl;
+            cout<<"Harga  : "<<temp->harga<<endl;
+            cout<<"Jumlah : "<<temp->jumlah<<endl;
+            return;
+        }
+
+        temp = temp->next;
+    }
+
+    cout<<"Produk tidak ditemukan"<<endl;
+}
+
 
