@@ -130,25 +130,6 @@ void tampilkanProduk(){
     }
 }
 
-//bagian menampilkan semua produk
-void tampilkanProduk(){
-    if(head == NULL){
-        cout<<"Keranjang kosong"<<endl;
-        return;
-    }
-
-    Node *temp = head;
-
-    while(temp != NULL){
-        cout<<"Produk : "<<temp->produk<<endl;
-        cout<<"Harga  : "<<temp->harga<<endl;
-        cout<<"Jumlah : "<<temp->jumlah<<endl;
-        cout<<"---------------------"<<endl;
-
-        temp = temp->next;
-    }
-}
-
 //bagian mencari produk
 void cariProduk(string produk){
 
@@ -173,4 +154,5 @@ void cariProduk(string produk){
     cout<<"Produk tidak ditemukan"<<endl;
 }
 
+int main(){}
 
