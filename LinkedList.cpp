@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 struct Node {
@@ -8,25 +9,20 @@ struct Node {
     Node *next;
 };
 
-Node *head=NULL;
+Node *head = NULL;
 
-//bagian beginning node
 void tambahAwal(string produk, int harga, int jumlah){
     Node *baru = new Node;
-
     baru->produk = produk;
     baru->harga = harga;
     baru->jumlah = jumlah;
     baru->next = head;
     head = baru;
-
-    cout<<"Produk berhasil ditambahkan"<<endl;
+    cout << "Produk berhasil ditambahkan di awal\n";
 }
 
-//bagian last node
 void tambahAkhir(string produk, int harga, int jumlah){
     Node *baru = new Node;
-
     baru->produk = produk;
     baru->harga = harga;
     baru->jumlah = jumlah;
@@ -42,25 +38,51 @@ void tambahAkhir(string produk, int harga, int jumlah){
         }
         temp->next = baru;
     }
-    cout<<"Produk berhasil ditambahkan di akhir"<<endl;
+    cout << "Produk berhasil ditambahkan di akhir\n";
 }
 
-//bagian delete first node
+void tambahTengah(string produkSebelum, string produk, int harga, int jumlah){
+    if(head == NULL){
+        cout << "List kosong, produk akan ditambahkan sebagai awal\n";
+        tambahAwal(produk, harga, jumlah);
+        return;
+    }
+
+    Node *temp = head;
+    while(temp != NULL && temp->produk != produkSebelum){
+        temp = temp->next;
+    }
+
+    if(temp == NULL){
+        cout << "Produk acuan tidak ditemukan\n";
+        return;
+    }
+
+    Node *baru = new Node;
+    baru->produk = produk;
+    baru->harga = harga;
+    baru->jumlah = jumlah;
+
+    baru->next = temp->next;
+    temp->next = baru;
+
+    cout << "Produk berhasil ditambahkan setelah '" << produkSebelum << "'\n";
+}
+
 void hapusAwal(){
     if(head == NULL){
-        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        cout << "List kosong, tidak ada yang bisa dihapus\n";
         return;
     }
     Node *temp = head;
     head = head->next;
     delete temp;
-    cout<<"Produk pertama berhasil dihapus"<<endl;
+    cout << "Produk pertama berhasil dihapus\n";
 }
 
-//bagian delete middle node
 void hapusTengah(string produk){
     if(head == NULL){
-        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        cout << "List kosong, tidak ada yang bisa dihapus\n";
         return;
     }
 
@@ -73,7 +95,7 @@ void hapusTengah(string produk){
     }
 
     if(temp == NULL){
-        cout<<"Produk tidak ditemukan"<<endl;
+        cout << "Produk tidak ditemukan\n";
         return;
     }
 
@@ -85,21 +107,18 @@ void hapusTengah(string produk){
     }
 
     delete temp;
-
-    cout<<"Produk tengah berhasil dihapus"<<endl;
+    cout << "Produk '" << produk << "' berhasil dihapus\n";
 }
 
-
-//bagian delete last node
 void hapusAkhir(){
     if(head == NULL){
-        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        cout << "List kosong, tidak ada yang bisa dihapus\n";
         return;
     }
     if(head->next == NULL){
         delete head;
         head = NULL;
-        cout<<"Produk terakhir berhasil dihapus"<<endl;
+        cout << "Produk terakhir berhasil dihapus (sekarang list kosong)\n";
         return;
     }
     Node *temp = head;
@@ -108,51 +127,152 @@ void hapusAkhir(){
     }
     delete temp->next;
     temp->next = NULL;
-    cout<<"Produk terakhir berhasil dihapus"<<endl;
+    cout << "Produk terakhir berhasil dihapus\n";
 }
 
-//bagian menampilkan semua produk
 void tampilkanProduk(){
     if(head == NULL){
-        cout<<"Keranjang kosong"<<endl;
+        cout << "Keranjang kosong\n";
         return;
     }
 
     Node *temp = head;
-
+    int idx = 1;
     while(temp != NULL){
-        cout<<"Produk : "<<temp->produk<<endl;
-        cout<<"Harga  : "<<temp->harga<<endl;
-        cout<<"Jumlah : "<<temp->jumlah<<endl;
-        cout<<"---------------------"<<endl;
-
+        cout << idx << ". Produk : " << temp->produk << "\n";
+        cout << "   Harga  : " << temp->harga << "\n";
+        cout << "   Jumlah : " << temp->jumlah << "\n";
+        cout << "---------------------\n";
         temp = temp->next;
+        idx++;
     }
 }
 
-//bagian mencari produk
 void cariProduk(string produk){
-
     if(head == NULL){
-    cout<<"Keranjang kosong"<<endl;
-    return;
-}
+        cout << "Keranjang kosong\n";
+        return;
+    }
 
     Node *temp = head;
-
+    int posisi = 1;
     while(temp != NULL){
         if(temp->produk == produk){
-            cout<<"Produk ditemukan"<<endl;
-            cout<<"Harga  : "<<temp->harga<<endl;
-            cout<<"Jumlah : "<<temp->jumlah<<endl;
+            cout << "Produk ditemukan di posisi " << posisi << "\n";
+            cout << "Harga  : " << temp->harga << "\n";
+            cout << "Jumlah : " << temp->jumlah << "\n";
             return;
         }
-
         temp = temp->next;
+        posisi++;
     }
-
-    cout<<"Produk tidak ditemukan"<<endl;
+    cout << "Produk tidak ditemukan\n";
 }
 
-int main(){}
+void tampilkanMenu(){
+    cout << "\n=== MENU KERANJANG (Linked List) ===\n";
+    cout << "1. Tambah di awal\n";
+    cout << "2. Tambah di akhir\n";
+    cout << "3. Tambah setelah produk (tengah)\n";
+    cout << "4. Hapus pertama\n";
+    cout << "5. Hapus terakhir\n";
+    cout << "6. Hapus berdasarkan nama (tengah)\n";
+    cout << "7. Tampilkan semua produk\n";
+    cout << "8. Cari produk\n";
+    cout << "0. Keluar\n";
+    cout << "Pilih: ";
+}
 
+int main(){
+    int pilihan;
+    do {
+        tampilkanMenu();
+        if(!(cin >> pilihan)){
+            cout << "Masukkan angka yang valid!\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        string produk, produkSebelum;
+        int harga, jumlah;
+
+        switch(pilihan){
+            case 1:
+                cout << "Nama produk: ";
+                getline(cin, produk);
+                cout << "Harga: ";
+                cin >> harga;
+                cout << "Jumlah: ";
+                cin >> jumlah;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                tambahAwal(produk, harga, jumlah);
+                break;
+
+            case 2:
+                cout << "Nama produk: ";
+                getline(cin, produk);
+                cout << "Harga: ";
+                cin >> harga;
+                cout << "Jumlah: ";
+                cin >> jumlah;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                tambahAkhir(produk, harga, jumlah);
+                break;
+
+            case 3:
+                cout << "Masukkan nama produk acuan (produk yang akan didahului): ";
+                getline(cin, produkSebelum);
+                cout << "Nama produk yang disisipkan: ";
+                getline(cin, produk);
+                cout << "Harga: ";
+                cin >> harga;
+                cout << "Jumlah: ";
+                cin >> jumlah;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                tambahTengah(produkSebelum, produk, harga, jumlah);
+                break;
+
+            case 4:
+                hapusAwal();
+                break;
+
+            case 5:
+                hapusAkhir();
+                break;
+
+            case 6:
+                cout << "Masukkan nama produk yang ingin dihapus: ";
+                getline(cin, produk);
+                hapusTengah(produk);
+                break;
+
+            case 7:
+                tampilkanProduk();
+                break;
+
+            case 8:
+                cout << "Masukkan nama produk yang dicari: ";
+                getline(cin, produk);
+                cariProduk(produk);
+                break;
+
+            case 0:
+                cout << "Keluar. Terima kasih!\n";
+                break;
+
+            default:
+                cout << "Pilihan tidak valid\n";
+        }
+
+    } while(pilihan != 0);
+
+    while(head != NULL){
+        Node *tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+
+    return 0;
+}
