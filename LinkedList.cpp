@@ -44,3 +44,36 @@ void tambahAkhir(string produk, int harga, int jumlah){
     }
     cout<<"Produk berhasil ditambahkan di akhir"<<endl;
 }
+
+//bagian delete first node
+void hapusAwal(){
+    if(head == NULL){
+        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        return;
+    }
+    Node *temp = head;
+    head = head->next;
+    delete temp;
+    cout<<"Produk pertama berhasil dihapus"<<endl;
+}
+
+//bagian delete last node
+void hapusAkhir(){
+    if(head == NULL){
+        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        return;
+    }
+    if(head->next == NULL){
+        delete head;
+        head = NULL;
+        cout<<"Produk terakhir berhasil dihapus"<<endl;
+        return;
+    }
+    Node *temp = head;
+    while(temp->next->next != NULL){
+        temp = temp->next;
+    }
+    delete temp->next;
+    temp->next = NULL;
+    cout<<"Produk terakhir berhasil dihapus"<<endl;
+}
