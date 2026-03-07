@@ -57,6 +57,39 @@ void hapusAwal(){
     cout<<"Produk pertama berhasil dihapus"<<endl;
 }
 
+//bagian delete middle node
+void hapusTengah(string produk){
+    if(head == NULL){
+        cout<<"List kosong, tidak ada yang bisa dihapus"<<endl;
+        return;
+    }
+
+    Node *temp = head;
+    Node *prev = NULL;
+
+    while(temp != NULL && temp->produk != produk){
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if(temp == NULL){
+        cout<<"Produk tidak ditemukan"<<endl;
+        return;
+    }
+
+    if(prev == NULL){       
+        head = temp->next;
+    }
+    else{
+        prev->next = temp->next;
+    }
+
+    delete temp;
+
+    cout<<"Produk tengah berhasil dihapus"<<endl;
+}
+
+
 //bagian delete last node
 void hapusAkhir(){
     if(head == NULL){
@@ -77,3 +110,5 @@ void hapusAkhir(){
     temp->next = NULL;
     cout<<"Produk terakhir berhasil dihapus"<<endl;
 }
+
+
